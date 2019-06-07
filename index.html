@@ -7,6 +7,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/css/style.css">
 
         <title>Guess The Word!</title>
     </head>
@@ -73,23 +74,20 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <!-- Topic Selection -->
-                                                <p> Choose a topic from the dropdown or click random topic! </p>
+                                                <p>Choose a topic from the dropdown or click random topic!</p>
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-secondary" id="randTopicBtn">Random Topic</button>
                                                     <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" id="topic1DD" >Topic 1</a>
-                                                        <a class="dropdown-item" id="topic2DD" >Topic 2</a>
-                                                        <a class="dropdown-item" id="topic3DD" >Topic 3</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="#">Separated link</a>
+                                                        <a class="dropdown-item" id="topic1DD" >Canadian Cities</a>
+                                                        <a class="dropdown-item" id="topic2DD" >Auto Manufacturers</a>
+                                                        <a class="dropdown-item" id="topic3DD" >Schools</a>
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary">Reset Topic</button>
                                                 <p>Game Topic: <span id="topicSelected">Unselected</span></p>
-                                                <button type="button" class="btn btn-success">Start Game</button>
+                                                <button type="button" class="btn btn-danger" id="startGameBtn">Start Game</button>
                                             </div>
                                         </div>
                                     </div>
@@ -102,15 +100,13 @@
 
             <!-- Game Card -->
 
-            <span id="gameCard">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="container">
-    
-                        </div>
+            <div class="card animated fadeInDown" id = "gameCard">
+                <div class="card-body">
+                    <div class="container">
+                        test
                     </div>
                 </div>
-            </span>
+            </div>
 
             
         </div>
