@@ -43,30 +43,76 @@
                                     </div>
                                 </div> 
                             </div>
-                            <!-- Score Board -->
+                            <!-- Right side -->
                             <div class="col-md-7">
-                                <div class="card">
-                                    <div class="card-body ">
-                                        <p class="text-center">Scoreboard
-                                            <ul>
-                                                <li>The goal of this game is to guess correctly</li>
-                                                <li>The word to be guessed will be based on the topic displayed on the screen</li>
-                                                <li>Choose a letter that you feel is part of the word</li>
-                                                    <ul>    
-                                                        <li>If you guess the correct letter, the letter(s) will be displayed accordingly on the screen in the proper spot within the word</li>
-                                                        <li>However, if you guess incorrectly, the letter gets placed in the incorrect letter box and you gain a strike!</li>
-                                                        <li>6 strikes and you lose the game!</li>
+                                <!-- Score Board -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body ">
+                                                <p class="text-center">Scoreboard
+                                                    <ul>
+                                                        <li>The goal of this game is to guess correctly</li>
+                                                        <li>The word to be guessed will be based on the topic displayed on the screen</li>
+                                                        <li>Choose a letter that you feel is part of the word</li>
+                                                            <ul>    
+                                                                <li>If you guess the correct letter, the letter(s) will be displayed accordingly on the screen in the proper spot within the word</li>
+                                                                <li>However, if you guess incorrectly, the letter gets placed in the incorrect letter box and you gain a strike!</li>
+                                                                <li>6 strikes and you lose the game!</li>
+                                                            </ul>
+                                                        <li>Guess all the letters sucessfully and you win the game!</li>
                                                     </ul>
-                                                <li>Guess all the letters sucessfully and you win the game!</li>
-                                            </ul>
-                                        </p>  
+                                                </p>  
+                                            </div>
+                                        </div> 
                                     </div>
-                                </div> 
+                                </div>
+                                <!-- Buttons -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- Topic Selection -->
+                                                Choose a topic from the dropdown or click random topic!
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-secondary" id="randTopicBtn">Random Topic</button>
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#">Action</a>
+                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Separated link</a>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-secondary">Reset Topic</button>
+                                                <p>Game Topic: <span id="topic selected">Unselected</span></p>
+                                                <button type="button" class="btn btn-success">Start Game</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>  
                 </div>
             </div>
+
+            <!-- Game Card -->
+
+            <span id="gameCard">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container">
+    
+                        </div>
+                    </div>
+                </div>
+            </span>
+
+            
         </div>
 
 
