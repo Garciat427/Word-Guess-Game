@@ -1,11 +1,10 @@
-$(".animated").addClass("delay-1s");
-
 $(document).ready(function() {
 
     var GameObj = { //Game Object
         topic: null, //Topic Property of GameObj
-        loadedArr : null, // Property of game array to be loaded
-        loadedWord :"",
+        loadedArr : null, //Property of game array to be loaded
+        loadedWord :null, //Property of loaded Word of current game
+        readyState : false,
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
@@ -29,22 +28,25 @@ $(document).ready(function() {
         selTopic: function() { //Function Used to select game topic
             switch (this.topic){
                 case (1): //Canadian Cities
-                $("#topicSelected").text("Canadian Cities");
-                this.loadedArr = this.canCities;
+                $("#topicSelected").text("Canadian Cities"); //Displays Current Topic : Canadian Cities
+                this.loadedArr = this.canCities;  //Loads Current Topic array
                 break;   
 
                 case (2): //Auto Makers
-                $("#topicSelected").text("Auto Manufacturer");
-                this.loadedArr = this.autoManu;
+                $("#topicSelected").text("Auto Manufacturer"); //Displays Current Topic : Auto Manu
+                this.loadedArr = this.autoManu; //Loads Current Topic array
                 break;
 
                 case (3): //Schools
-                $("#topicSelected").text("Schools");
-                this.loadedArr = this.schools;
+                $("#topicSelected").text("Schools"); //Displays Current Topic : Schools
+                this.loadedArr = this.schools; //Loads Current Topic array
                 break;
             };
-            $("#startGameBtn").removeClass("btn-danger");
+            //Changes Button Color
+            $("#startGameBtn").removeClass("btn-danger"); 
             $("#startGameBtn").addClass("btn-success");
+            //Changes Game State
+            this.readyState = true;
         },
         
         selWord: function () {
@@ -52,9 +54,6 @@ $(document).ready(function() {
             this.loadedWord = this.loadedArr[randArrSel];
             console.log(this.loadedWord);
         },
-        showGameCard: function() {
-            $("#gameCard").show();
-        }
     }
         
 
@@ -82,8 +81,10 @@ $(document).ready(function() {
         GameObj.selTopic();
     });
     $("#startGameBtn").on("click", function() {
-        GameObj.showGameCard();
-        GameObj.selWord();
+        if (GameObj.readyState)
+            GameObj.selWord();
+        else
+            alert("No topic selected! Please select topic first!");
     });
 });
 
