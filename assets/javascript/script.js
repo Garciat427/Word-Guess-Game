@@ -4,7 +4,9 @@ $(document).ready(function() {
         topic: null, //Topic Property of GameObj
         loadedArr : null, //Property of game array to be loaded
         loadedWord :null, //Property of loaded Word of current game
+        loadedGuess :[],
         readyState : false,
+        firstLetter : true,
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
@@ -54,6 +56,19 @@ $(document).ready(function() {
             this.loadedWord = this.loadedArr[randArrSel];
             console.log(this.loadedWord);
         },
+
+        wordSetup: function(){
+            
+            for (var i = 0; i < this.loadedWord.length; i++){
+                if (this.loadedWord[i] === "-"){
+                    this.loadedGuess.push ('-');         
+                }
+                else{
+                    this.loadedGuess.push ('☐');
+                }
+            }
+            $("#wordBox").text(this.loadedCharArr.join(''));
+        },   
     }
         
 
@@ -81,10 +96,13 @@ $(document).ready(function() {
         GameObj.selTopic();
     });
     $("#startGameBtn").on("click", function() {
-        if (GameObj.readyState)
+        if (GameObj.readyState){
             GameObj.selWord();
+            GameObj.wordSetup();
+        }   
         else
             alert("No topic selected! Please select topic first!");
+
     });
 });
 
