@@ -15,6 +15,17 @@ $(document).ready(function() {
 
         schools : ["University-of-Toronto", "University-of-Waterloo", "Macmaster-University", "Queens-University"],
         
+        letters : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+
+        startLetter: function(){ //Dynamically Creates Buttons
+            this.letters.forEach(function(letter,i) {
+                var letterBtn = $("<button>");
+                letterBtn.addClass("btn btn-secondary btn-space letter-button");
+                letterBtn.attr("data-letter", letter);
+                letterBtn.text(letter);
+                $("#buttonBox").append(letterBtn);
+            });
+        },
 
         randTopic: function(){ //Function used to generate random game topic
             var randNum = Math.floor((Math.random() * 3) + 1) //Gen rand num between 1-3 (topic 1-3)
@@ -53,12 +64,12 @@ $(document).ready(function() {
         
         selWord: function () {
             var randArrSel = Math.floor(Math.random() * this.loadedArr.length)
-            this.loadedWord = this.loadedArr[randArrSel];
+            this.loadedWord = this.loadedArr[randArrSel].toUpperCase();
             console.log(this.loadedWord);
         },
 
-        wordSetup: function(){
-            
+        startGame: function(){
+            this.selWord();
             for (var i = 0; i < this.loadedWord.length; i++){
                 if (this.loadedWord[i] === "-"){
                     this.loadedGuess.push ('-');         
@@ -67,12 +78,40 @@ $(document).ready(function() {
                     this.loadedGuess.push ('☐');
                 }
             }
-            $("#wordBox").text(this.loadedCharArr.join(''));
-        },   
-    }
+            $("#wordBox").text(this.loadedGuess.join(''));
+        },
+
         
 
+        onClickLetter: function(btnClicked){
+            letterClicked = $(btnClicked).attr("data-letter")
+            console.log($(btnClicked).attr("data-letter"));
+            $(btnClicked).attr("disabled",true);
+            $(btnClicked).addClass("btn-danger")
+            console.log(this.loadedWord);
+            for (var i = 0; i < this.loadedWord.length; i++){
+                if (this.loadedWord[i] === letterClicked){
+                    console.log("yes");
+                    this.loadedGuess[i] = letterClicked;
+                    console.log(this.loadedGuess);        
+                }
+                else{
+                    console.log("no");
+                }
+            }
+            $("#wordBox").val('');
+            $("#wordBox").text(this.loadedGuess.join(''));
+            
+        }
+        
+        
+    }
+    
+    GameObj.startLetter();
     //Random Topic Event
+    $(".letter-button").on("click", function() {
+        GameObj.onClickLetter(this);
+    }); 
     $("#randTopicBtn").on("click", function() {
         GameObj.randTopic();
     });
@@ -97,13 +136,12 @@ $(document).ready(function() {
     });
     $("#startGameBtn").on("click", function() {
         if (GameObj.readyState){
-            GameObj.selWord();
-            GameObj.wordSetup();
+            GameObj.startGame();
         }   
         else
             alert("No topic selected! Please select topic first!");
-
     });
+
 });
 
 
