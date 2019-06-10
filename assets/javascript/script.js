@@ -4,9 +4,11 @@ $(document).ready(function() {
         topic: null, //Topic Property of GameObj
         loadedArr : null, //Property of game array to be loaded
         loadedWord :null, //Property of loaded Word of current game
-        loadedGuess :[],
-        readyState : false,
-        firstLetter : true,
+        loadedGuess :[], //Array to store current gameword state
+        readyState : false, //Boolean to prevent false starts without a topic
+        ltrRemaining: null,
+        incLetters: null,
+        chances:null,
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
@@ -70,41 +72,54 @@ $(document).ready(function() {
 
         startGame: function(){
             this.selWord();
+            this.ltrRemaining = this.loadedWord.length
+            this.incLetters = 0;
+            this.chances = 7;
             for (var i = 0; i < this.loadedWord.length; i++){
                 if (this.loadedWord[i] === "-"){
-                    this.loadedGuess.push ('-');         
+                    this.loadedGuess.push ('-');
+                    this.ltrRemaining--;         
                 }
                 else{
                     this.loadedGuess.push ('☐');
                 }
             }
-            $("#wordBox").text(this.loadedGuess.join(''));
+            this.updateGameScreen();
         },
-
-        
 
         onClickLetter: function(btnClicked){
             letterClicked = $(btnClicked).attr("data-letter")
-            console.log($(btnClicked).attr("data-letter"));
             $(btnClicked).attr("disabled",true);
-            $(btnClicked).addClass("btn-danger")
-            console.log(this.loadedWord);
+            var success = 0;
             for (var i = 0; i < this.loadedWord.length; i++){
                 if (this.loadedWord[i] === letterClicked){
-                    console.log("yes");
                     this.loadedGuess[i] = letterClicked;
-                    console.log(this.loadedGuess);        
-                }
-                else{
-                    console.log("no");
+                    success ++;
+                    this.ltrRemaining--;
+                    $(btnClicked).addClass("btn-success");    
                 }
             }
-            $("#wordBox").val('');
+
+            if (success > 0){
+                $(btnClicked).addClass("btn-success");
+            }
+            else{
+                $(btnClicked).addClass("btn-danger");
+                this.chances--;
+                this.incLetters++;
+            }
+            this.updateGameScreen();
+        },
+        
+        updateGameScreen: function(){
+            //Clear Previous Values
+            $("#wordBox ltrRemNum ltrIncNum ChancesNum ").val('');
+            //Send Text with current info to the screen
             $("#wordBox").text(this.loadedGuess.join(''));
-            
-        }
-        
-        
+            $("#ltrRemNum").text(this.ltrRemaining);
+            $("#ltrIncNum").text(this.incLetters);
+            $("#ChancesNum").text(this.chances);
+        },
     }
     
     GameObj.startLetter();
