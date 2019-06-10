@@ -1,25 +1,28 @@
 $(document).ready(function() {
 
     var GameObj = { //Game Object
+        
+        //Variable Properties
         topic: null, //Topic Property of GameObj
         loadedArr : null, //Property of game array to be loaded
         loadedWord :null, //Property of loaded Word of current game
         loadedGuess :[], //Array to store current gameword state
         readyState : false, //Boolean to prevent false starts without a topic
-        ltrRemaining: null,
-        incLetters: null,
-        chances:null,
+        ltrRemaining: null, //Stores num of letters remaining to guess
+        incLetters: null, //Stores num of incorrect letters
+        chances:null, //Stores num of chances left
+        stage: 8,
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
-
         autoManu : ["Toyota", "Volkswagen", "Hyundai", "General-Motors", "Ford", "Nissan", "Honda", "Subaru"],
-
         schools : ["University-of-Toronto", "University-of-Waterloo", "Macmaster-University", "Queens-University"],
-        
+
         letters : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
 
-        startLetter: function(){ //Dynamically Creates Buttons
+        //Functions
+        startLetter: function(){ //Dynamically Creates Buttons 
+            //Function used to dynamically create letters
             this.letters.forEach(function(letter,i) {
                 var letterBtn = $("<button>");
                 letterBtn.addClass("btn btn-secondary btn-space letter-button");
@@ -27,6 +30,8 @@ $(document).ready(function() {
                 letterBtn.text(letter);
                 $("#buttonBox").append(letterBtn);
             });
+
+            
         },
 
         randTopic: function(){ //Function used to generate random game topic
@@ -35,12 +40,12 @@ $(document).ready(function() {
                 this.randTopic(); //Recursive Function Call to prevent duplicate topics
             }
             else{ //If not the same
-                this.topic = randNum;
-                this.selTopic(); //Calls selTopic to select random topic
+                this.selTopic(1); //Calls selTopic to select random topic
             }
         },
 
-        selTopic: function() { //Function Used to select game topic
+        selTopic: function(sel) { //Function Used to select game topic
+            this.topic = sel;
             switch (this.topic){
                 case (1): //Canadian Cities
                 $("#topicSelected").text("Canadian Cities"); //Displays Current Topic : Canadian Cities
@@ -64,13 +69,10 @@ $(document).ready(function() {
             this.readyState = true;
         },
         
-        selWord: function () {
-            var randArrSel = Math.floor(Math.random() * this.loadedArr.length)
-            this.loadedWord = this.loadedArr[randArrSel].toUpperCase();
-            console.log(this.loadedWord);
-        },
-
-        startGame: function(){
+        startGame: function(){ //Function used to start game
+            //Show game card and remove topic selector
+            $("#gameCard").removeClass("invisible");
+            $("#topicSel").empty();
             this.selWord();
             this.ltrRemaining = this.loadedWord.length
             this.incLetters = 0;
@@ -87,20 +89,26 @@ $(document).ready(function() {
             this.updateGameScreen();
         },
 
-        onClickLetter: function(btnClicked){
+        selWord: function () { //Function used to select random word from topic array
+            var randArrSel = Math.floor(Math.random() * this.loadedArr.length)
+            this.loadedWord = this.loadedArr[randArrSel].toUpperCase();
+        },
+
+        onClickLetter: function(btnClicked){ //Function performed on every letter button press
             letterClicked = $(btnClicked).attr("data-letter")
             $(btnClicked).attr("disabled",true);
             var success = 0;
+            //Loop to check if selected letter is within the word to be guessed
             for (var i = 0; i < this.loadedWord.length; i++){
                 if (this.loadedWord[i] === letterClicked){
                     this.loadedGuess[i] = letterClicked;
-                    success ++;
+                    success ++; //If letter is good, success + 1
                     this.ltrRemaining--;
                     $(btnClicked).addClass("btn-success");    
                 }
             }
 
-            if (success > 0){
+            if (success > 0){ 
                 $(btnClicked).addClass("btn-success");
             }
             else{
@@ -108,10 +116,39 @@ $(document).ready(function() {
                 this.chances--;
                 this.incLetters++;
             }
-            this.updateGameScreen();
+            this.updateGameScreen(); //Calls function to update game screen w new info
+            this.statusCheck();
+        },
+
+        statusCheck: function(){
+            if (this.ltrRemaining === 0){
+                $("#stateCard").removeClass("invisible");
+                
+                var h1GameStatus = $("<h1>");
+                h1GameStatus.text(" Congrats! You Win!");
+                $("#gameStatus").append(h1GameStatus);
+                
+                this.letters.forEach(function(letter) {
+                    $(".letter-button").attr("disabled",true);
+                });
+            }
+            else if (this.chances === 0){
+                $("#stateCard").removeClass("invisible");
+                
+                var h1GameStatus = $("<h1>");
+                h1GameStatus.text(" Sorry! You Lose! The word chosen was: " + this.loadedWord);
+                $("#gameStatus").append(h1GameStatus);
+
+                this.letters.forEach(function(letter) {
+                    $(".letter-button").attr("disabled",true);
+                });
+            }
+                //Change Hangman State img every chance change
+                var stage = 8 - this.chances
+                $("#gameStage").attr("src","assets/images/HangmanStages/Hangman-Stage"+ stage +".png");
         },
         
-        updateGameScreen: function(){
+        updateGameScreen: function(){ //Function to update game screen
             //Clear Previous Values
             $("#wordBox ltrRemNum ltrIncNum ChancesNum ").val('');
             //Send Text with current info to the screen
@@ -122,41 +159,37 @@ $(document).ready(function() {
         },
     }
     
-    GameObj.startLetter();
+    GameObj.startLetter(); //Dynamically create Letter buttons
+
     //Random Topic Event
-    $(".letter-button").on("click", function() {
-        GameObj.onClickLetter(this);
-    }); 
-    $("#randTopicBtn").on("click", function() {
+    $("#randTopicBtn").on("click", function(){
         GameObj.randTopic();
     });
-
     //Drop Down Events
     //Topic 1
-    $("#topic1DD").on("click", function() {
-        GameObj.topic =  1;
-        GameObj.selTopic();
+    $("#topic1DD").on("click", function(){
+        GameObj.selTopic(1);
     });
-
     //Topic 2
-    $("#topic2DD").on("click", function() {
-        GameObj.topic =  2;
-        GameObj.selTopic();
+    $("#topic2DD").on("click", function(){
+        GameObj.selTopic(2);
+    });
+    //Topic 3
+    $("#topic3DD").on("click", function(){
+        GameObj.selTopic(3);
     });
 
-    //Topic 3
-    $("#topic3DD").on("click", function() {
-        GameObj.topic =  3;
-        GameObj.selTopic();
-    });
     $("#startGameBtn").on("click", function() {
         if (GameObj.readyState){
-            GameObj.startGame();
+            GameObj.startGame();   
         }   
         else
             alert("No topic selected! Please select topic first!");
     });
 
+    $(".letter-button").on("click", function(){
+        GameObj.onClickLetter(this);
+    });
 });
 
 
