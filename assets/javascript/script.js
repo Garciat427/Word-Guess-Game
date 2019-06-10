@@ -14,7 +14,7 @@ $(document).ready(function() {
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
-        autoManu : ["Toyota", "Volkswagen", "Hyundai", "General-Motors", "Ford", "Nissan", "Honda", "Subaru"],
+        autoManu : ["Toyota", "Volkswagen", "Hyundai", "General-Motors", "Ford", "Nissan", "Honda", "Subaru", "Tesla", "Mercedes-Benz", "Lamborghini", "Land-Rover", "Audi", "BMW", "Chevrolet", "Lexus", "Kia", "Porsche"],
         schools : ["University-of-Toronto", "University-of-Waterloo", "Macmaster-University", "Queens-University"],
 
         letters : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
@@ -37,7 +37,7 @@ $(document).ready(function() {
                 this.randTopic(); //Recursive Function Call to prevent duplicate topics
             }
             else{ //If not the same
-                this.selTopic(1); //Calls selTopic to select random topic
+                this.selTopic(randNum); //Calls selTopic to select random topic
             }
         },
 
