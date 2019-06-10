@@ -11,7 +11,6 @@ $(document).ready(function() {
         ltrRemaining: null, //Stores num of letters remaining to guess
         incLetters: null, //Stores num of incorrect letters
         chances:null, //Stores num of chances left
-        stage: 8,
 
         //GameArrays
         canCities : ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary", "Edmonton", "Winnipeg", "Victoria", "Quebec-City"],
@@ -30,8 +29,6 @@ $(document).ready(function() {
                 letterBtn.text(letter);
                 $("#buttonBox").append(letterBtn);
             });
-
-            
         },
 
         randTopic: function(){ //Function used to generate random game topic
@@ -48,17 +45,17 @@ $(document).ready(function() {
             this.topic = sel;
             switch (this.topic){
                 case (1): //Canadian Cities
-                $("#topicSelected").text("Canadian Cities"); //Displays Current Topic : Canadian Cities
+                $(".topicSelected").text("Canadian Cities"); //Displays Current Topic : Canadian Cities
                 this.loadedArr = this.canCities;  //Loads Current Topic array
                 break;   
 
                 case (2): //Auto Makers
-                $("#topicSelected").text("Auto Manufacturer"); //Displays Current Topic : Auto Manu
+                $(".topicSelected").text("Auto Manufacturer"); //Displays Current Topic : Auto Manu
                 this.loadedArr = this.autoManu; //Loads Current Topic array
                 break;
 
                 case (3): //Schools
-                $("#topicSelected").text("Schools"); //Displays Current Topic : Schools
+                $(".topicSelected").text("Schools"); //Displays Current Topic : Schools
                 this.loadedArr = this.schools; //Loads Current Topic array
                 break;
             };
